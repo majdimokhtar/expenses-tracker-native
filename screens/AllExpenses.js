@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, StyleSheet, Text} from 'react-native';
-import ExpensesOutput from '../components/expensesOutput/ExpensesOutput';
+import ExpensesOutput from '../components/ExpensesOutput/ExpensesOutput';
 
 const AllExpenses = () => {
     return (
