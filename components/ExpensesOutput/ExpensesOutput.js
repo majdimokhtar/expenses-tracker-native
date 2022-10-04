@@ -15,7 +15,7 @@ const DUMMY_ExPENSES = [
         id : "e2",
         description: "Pants",
         amount : 120,
-        date : new Date("2022-09-01")
+        date : new Date("2022-01-15")
     },
     {
         id : "e3",
@@ -35,6 +35,36 @@ const DUMMY_ExPENSES = [
         amount : 5000,
         date : new Date("2022-05-01")
     },
+    {
+      id : "e6",
+      description: "A pair of shoes",
+      amount : 60,
+      date : new Date("2021-12-09")
+  },
+  {
+      id : "e7",
+      description: "Pants",
+      amount : 120,
+      date : new Date("2022-09-01")
+  },
+  {
+      id : "e9",
+      description: "A Book",
+      amount : 40,
+      date : new Date("2022-08-01")
+  },
+  {
+      id : "e10",
+      description: "Another Book",
+      amount : 50,
+      date : new Date("2022-07-01")
+  },
+  {
+      id : "e11",
+      description: "PS5",
+      amount : 5000,
+      date : new Date("2022-05-01")
+  },
 ]
 
 const ExpensesOutput = ({ expenses,expensesPeriod }) => {
