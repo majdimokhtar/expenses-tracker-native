@@ -14,6 +14,8 @@ const ManageExpense = ({ route, navigation }) => {
   const editexpenseId = route.params?.expenseId
   // convert into a boolean
   const isEditing = !!editexpenseId
+  // editing expense 
+  const selectedExpense = expenseCtx.expenses.find((expense)=>expense.id===editexpenseId)
   // to avoid flickring
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -41,6 +43,7 @@ const ManageExpense = ({ route, navigation }) => {
         onCancel={cancelHandler}
         onSubmit={confirmHandler}
         submitBtnLabel={isEditing ? "Update" : "Add"}
+        defaultValue = {selectedExpense}
       />
 
       {isEditing && (
