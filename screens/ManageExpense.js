@@ -2,6 +2,7 @@ import React from "react"
 import { useContext } from "react"
 import { useLayoutEffect } from "react"
 import { View, StyleSheet, Text } from "react-native"
+import ExpenseForm from "../components/ManageExpense/ExpenseForm"
 import Button from "../components/ui/Button"
 import IconBtn from "../components/ui/IconBtn"
 import { GlobalStyles } from "../constants/styles"
@@ -26,32 +27,22 @@ const ManageExpense = ({ route, navigation }) => {
   function cancelHandler() {
     navigation.goBack()
   }
-  function confirmHandler() {
+  function confirmHandler(expenseData) {
     if (isEditing) {
-      expenseCtx.updateExpense(editexpenseId, {
-        description: "testiiiing!!!!",
-        amount: 10,
-        date: new Date("2022-01-01"),
-      })
+      expenseCtx.updateExpense(editexpenseId, expenseData)
     } else {
-      expenseCtx.addExpense({
-        description: "test",
-        amount: 19,
-        date: new Date("2022-10-10"),
-      })
+      expenseCtx.addExpense(expenseData)
     }
     navigation.goBack()
   }
   return (
     <View style={styles.container}>
-      <View style={styles.buttons}>
-        <Button style={styles.button} mode="flat" onPress={cancelHandler}>
-          Cancel
-        </Button>
-        <Button style={styles.button} onPress={confirmHandler}>
-          {isEditing ? "Update" : "Add"}
-        </Button>
-      </View>
+      <ExpenseForm
+        onCancel={cancelHandler}
+        onSubmit={confirmHandler}
+        submitBtnLabel={isEditing ? "Update" : "Add"}
+      />
+
       {isEditing && (
         <View style={styles.deleteContainer}>
           <IconBtn
@@ -71,15 +62,6 @@ const styles = StyleSheet.create({
     padding: 24,
     flex: 1,
     backgroundColor: GlobalStyles.colors.primary800,
-  },
-  buttons: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  button: {
-    minWidth: 120,
-    marginHorizontal: 8,
   },
   deleteContainer: {
     marginTop: 16,
