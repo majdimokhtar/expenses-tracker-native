@@ -7,6 +7,7 @@ import Button from "../components/ui/Button"
 import IconBtn from "../components/ui/IconBtn"
 import { GlobalStyles } from "../constants/styles"
 import { ExpenseContext } from "../store/expense-context"
+import { deleteExpense, storeExpense, updateExpense } from "../util/http"
 
 const ManageExpense = ({ route, navigation }) => {
   const expenseCtx = useContext(ExpenseContext)
@@ -14,26 +15,31 @@ const ManageExpense = ({ route, navigation }) => {
   const editexpenseId = route.params?.expenseId
   // convert into a boolean
   const isEditing = !!editexpenseId
-  // editing expense 
-  const selectedExpense = expenseCtx.expenses.find((expense)=>expense.id===editexpenseId)
+  // editing expense
+  const selectedExpense = expenseCtx.expenses.find(
+    (expense) => expense.id === editexpenseId
+  )
   // to avoid flickring
   useLayoutEffect(() => {
     navigation.setOptions({
       title: isEditing ? "Edit Expense" : "Add Expense",
     })
   }, [navigation, isEditing])
-  function deleteExpenseHandler() {
+async function deleteExpenseHandler() {
+    await deleteExpense(editexpenseId)
     expenseCtx.deleteExpense(editexpenseId)
     navigation.goBack()
   }
   function cancelHandler() {
     navigation.goBack()
   }
-  function confirmHandler(expenseData) {
+  async function confirmHandler(expenseData) {
     if (isEditing) {
       expenseCtx.updateExpense(editexpenseId, expenseData)
+      await updateExpense(id, expenseData)
     } else {
-      expenseCtx.addExpense(expenseData)
+      const id = await storeExpense(expenseData)
+      expenseCtx.addExpense({ ...expenseData, id: id })
     }
     navigation.goBack()
   }
@@ -43,7 +49,7 @@ const ManageExpense = ({ route, navigation }) => {
         onCancel={cancelHandler}
         onSubmit={confirmHandler}
         submitBtnLabel={isEditing ? "Update" : "Add"}
-        defaultValue = {selectedExpense}
+        defaultValue={selectedExpense}
       />
 
       {isEditing && (
